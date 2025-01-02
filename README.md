@@ -44,7 +44,7 @@ Key features include secure JWT-based authentication, encrypted audio storage, a
 
 - **Framework:** React 17 for a responsive and dynamic user interface.
 - **State Management:** React Query for efficient server state handling.
-- **Global State:** Context API for managing user authentication and global application state.
+- **Global State:** React Context for managing user authentication and global application state.
 - **Audio Recording:** React-mic for seamless in-app audio recording.
 - **Form Handling:** Formik and Yup for building and validating user input forms.
 - **Testing:** Jest and React Testing Library for unit and integration tests.
@@ -113,15 +113,29 @@ daily-notes/
    git clone https://github.com/moontech69/Daily_notes_application---BEST.git
    cd Daily_notes_application---BEST
    ```
-2. Build and run the containers using Docker Compose:
+2. Build images using Docker Compose:
    ```bash
-   docker-compose up --build
+   docker-compose build
    ```
-3. Access the application:
+   **Once you building images, you don't need to rebuild images.*
+3. Building and run the containers using Docker Compose:
+   ```bash
+   docker-compose up
+   ```
+   **Once you build the images, when you are restarting server, you can start here.*
+4. Access the application:
    - **Backend:** `http://localhost:8000`
    - **Frontend:** `http://localhost:3000`
+5. Stop running and removing the containers:
+   ```bash
+   docker-compose down
+   ```
 
 ### Testing
+**Before testing you should run your container using below command.**
+   ```bash
+   docker-compose up
+   ```
 
 #### Backend Tests
 
