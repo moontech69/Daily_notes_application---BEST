@@ -1,0 +1,41 @@
+services:
+  backend:
+    container_name: backend_django
+    build:
+      context: ./backend_django
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend_django:/app
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=daily_notes
+      - DB_USER=root
+      - DB_PASSWORD=11111
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    container_name: frontend_react
+    build:
+      context: ./frontend_react
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend_react:/app
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: 11111
+      MYSQL_DATABASE: daily_notes
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

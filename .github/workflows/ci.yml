@@ -1,0 +1,76 @@
+name: CI Pipeline For Daily Notes App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: 11111
+          MYSQL_DATABASE: daily_notes
+          MYSQL_HOST: db
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -P 3306 -u root -p11111"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+          DB_HOST: 127.0.0.1
+          DB_NAME: daily_notes
+          DB_USER: root
+          DB_PASSWORD: 11111
+          
+    steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-lib2to3 mysql-client
+      
+      - name: Install backend dependencies
+        working-directory: ./backend_django
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+          
+      - name: Run backend tests
+        working-directory: ./backend_django
+        run: |
+          python manage.py migrate
+          pytest
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend_react
+        run: npm install --force
+
+      - name: Run frontend tests
+        working-directory: ./frontend_react
+        run: npm test
