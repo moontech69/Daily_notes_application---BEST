@@ -14,7 +14,7 @@ jest.mock("react-toastify", () => ({
 }));
 
 const mockMutate = jest.fn();
-jest.mock("../../services/api/auth/signIn", () => ({
+jest.mock("../../services/api/auth/signin", () => ({
 	useSignin: () => ({
 		mutate: mockMutate,
 	}),

@@ -55,7 +55,7 @@ jest.mock("src/components/note/NoteFrom", () => ({
 	),
 }));
 
-jest.mock("src/components/global/isLoading", () => ({
+jest.mock("src/components/global/IsLoading", () => ({
 	IsLoading: () => (
 		<div data-testid="loading-spinner">Fetching your notes... Please wait.</div>
 	),

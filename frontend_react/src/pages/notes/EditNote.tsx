@@ -29,9 +29,9 @@ const EditNote = () => {
 			formData.append("audio", values.audio);
 		}
 
-		mutate(formData, { 
+		mutate(formData, {
 			onSuccess: () => {
-				navigate("/notes")
+				navigate("/notes");
 				toast.success("Saved successfully!", {
 					position: "top-right",
 					autoClose: 3000,
@@ -44,7 +44,7 @@ const EditNote = () => {
 				});
 			},
 			onError: () => {
-				navigate("/notes")
+				navigate("/notes");
 				toast.error("Failed to save!", {
 					position: "top-right",
 					autoClose: 3000,
@@ -55,7 +55,7 @@ const EditNote = () => {
 					progress: undefined,
 					theme: "colored",
 				});
-			} 
+			},
 		});
 	};
 
